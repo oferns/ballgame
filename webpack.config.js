@@ -2,8 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  entry: './src/app.ts',
-  devtool: 'inline-source-map',
+  mode: 'development',
+  entry: './main.ts',
+  devtool: 'source-map',
+  devServer: {
+    contentBase: 'dist',
+    publicPath: '/dist'
+  },
   module: {
     rules: [
       {
@@ -19,11 +24,13 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist', 'js'),
+    publicPath: '/dist'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'index.html')
+      template: './index.html',
+      filename: '../index.html',
+      hash: true,
     })
   ]
 };
-

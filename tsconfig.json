@@ -1,14 +1,19 @@
 {
-	"compilerOptions": {
-		"target": "es6",
+    "compilerOptions": {
+        "target": "es6",
         "moduleResolution": "node",
-        "outDir": "js",
+        "outDir": "dist",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "sourceMap": true,
         "allowJs": true,
-        "alwaysStrict": true
-	}
+        "alwaysStrict": true,
+        "baseUrl": ".",
+    },
+    "compileOnSave": false,
+    "include": [
+      "**/*.ts"
+    ]
 }
