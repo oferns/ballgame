@@ -1,53 +1,47 @@
 import {
   Scene,
   PerspectiveCamera,
-  DoubleSide,
   WebGLRenderer,
-  DirectionalLight,
-  PlaneGeometry,
-  MeshBasicMaterial,
-  Mesh,
-  BoxGeometry
 } from 'three';
-
-
 
 export default class BallGame {
 
   private scene: Scene;
   private camera: PerspectiveCamera;
   private renderer: WebGLRenderer;
+  private window: Window;
 
-  constructor() {
+  constructor(window: Window) {
+    this.window = window;
+    this.window.addEventListener('load', this.init);
+    this.window.addEventListener('resize', this.onresize);
+
     this.scene = new Scene();
-    this.renderer = new PerspectiveCamera();
-    this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.renderer = new WebGLRenderer();
+    this.camera = new PerspectiveCamera(75, this.window.innerWidth / this.window.innerHeight, 0.1, 1000);
+
   }
 
-
-  public Resize = (ev: UIEvent): void => {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+  public onresize = (ev: UIEvent): void => {
+    this.camera.aspect = this.window.innerWidth / this.window.innerHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
   }
 
+  public init = (ev: Event): void => {
+    this.window.document.body.appendChild(this.renderer.domElement)
 
-  public WindowLoad = (ev: Event): void => {
-    ev.target;
   }
 
-
-  public Animate = (): void => {
-    requestAnimationFrame(this.Animate);
-    this.Render();
+  public animate = (): void => {
+    requestAnimationFrame(this.animate);
+    this.render();
   }
 
-  public Render = (): void => {
+  public render = (): void => {
     this.renderer.render(this.scene, this.camera);
   }
-
 }
-
 
 // const scene = new Scene();
 // const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
