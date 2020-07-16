@@ -1,52 +1,53 @@
-import {
-  Scene,
-  PerspectiveCamera,
-  WebGLRenderer,
-} from 'three';
+import { Scene, PerspectiveCamera, WebGLRenderer, DirectionalLight } from 'three';
+
+import Splash from './splash';
 
 export default class BallGame {
+    private scene: Scene;
+    private camera: PerspectiveCamera;
+    private renderer: WebGLRenderer;
+    private window: Window;
+    private sun: DirectionalLight;
 
-  private scene: Scene;
-  private camera: PerspectiveCamera;
-  private renderer: WebGLRenderer;
-  private window: Window;
+    constructor(window: Window) {
+        this.window = window;
+        this.window.addEventListener('load', () => this.init());
+        this.window.addEventListener('resize', this.onresize);
 
-  constructor(window: Window) {
-    this.window = window;
-    this.window.addEventListener('load', this.init);
-    this.window.addEventListener('resize', this.onresize);
+        this.scene = new Scene();
+        this.renderer = new WebGLRenderer();
+        this.camera = new PerspectiveCamera(75, this.window.innerWidth / this.window.innerHeight, 0.1, 1000);
+        this.sun = new DirectionalLight(0xffffff, 1.0);
+    }
 
-    this.scene = new Scene();
-    this.renderer = new WebGLRenderer();
-    this.camera = new PerspectiveCamera(75, this.window.innerWidth / this.window.innerHeight, 0.1, 1000);
+    public onresize = (ev: UIEvent): void => {
+        this.camera.aspect = ev.view.innerWidth / ev.view.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(ev.view.innerWidth, ev.view.innerHeight);
+    };
 
-  }
+    private init = (): void => {
+        this.sun.position.set(2, 2, 2);
+        this.scene.add(this.sun);
+        this.window.document.body.prepend(this.renderer.domElement);
+        this.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
+        const splash = new Splash();
+        splash.render();
+    };
 
-  public onresize = (ev: UIEvent): void => {
-    this.camera.aspect = this.window.innerWidth / this.window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
-  }
+    public animate = (): void => {
+        requestAnimationFrame(this.animate);
+        this.render();
+    };
 
-  public init = (ev: Event): void => {
-    this.window.document.body.appendChild(this.renderer.domElement)
-
-  }
-
-  public animate = (): void => {
-    requestAnimationFrame(this.animate);
-    this.render();
-  }
-
-  public render = (): void => {
-    this.renderer.render(this.scene, this.camera);
-  }
+    public render = (): void => {
+        this.renderer.render(this.scene, this.camera);
+    };
 }
 
 // const scene = new Scene();
 // const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // const renderer = new WebGLRenderer();
-
 
 // window.addEventListener('resize', (ev: UIEvent): void => {
 //   camera.aspect = window.innerWidth / window.innerHeight;
@@ -113,4 +114,3 @@ export default class BallGame {
 //   animate();
 
 // });
-

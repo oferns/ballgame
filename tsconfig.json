@@ -6,14 +6,24 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
+        "suppressImplicitAnyIndexErrors": false,
         "sourceMap": true,
         "allowJs": true,
         "alwaysStrict": true,
-        "baseUrl": ".",
+        "jsx": "react",
+        "jsxFactory": "elements.createElement",
+        "lib": [
+          "DOM",
+          "ES6"
+        ]
     },
     "compileOnSave": false,
     "include": [
-      "**/*.ts"
+      "main.ts",
+      "src/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
     ]
 }
